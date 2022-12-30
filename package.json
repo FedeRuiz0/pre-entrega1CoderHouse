@@ -1,0 +1,20 @@
+{
+  "name": "desafio-3---federico-ruiz",
+  "version": "1.0.0",
+  "description": "",
+  "main": "ProductManager.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FedeRuiz0/Servidor-con-expressCoderHouse.git"
+  },
+  "author": "Federico Ruiz",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FedeRuiz0/Servidor-con-expressCoderHouse/issues"
+  },
+  "homepage": "https://github.com/FedeRuiz0/Servidor-con-expressCoderHouse#readme"
+}
