@@ -1,10 +1,13 @@
 import express from "express";
+import productsRouter from "./routes/productRoutes.js";
 import bodyParser from "body-parser";
 import cors from "cors";
 import fs from "fs";
 
 const PORT = 8080;
 const app = express();
+
+
 app.use(bodyParser.json());
 app.use(cors());
 
@@ -14,9 +17,6 @@ let products = [];
 
 // Array para almacenar la información de los carritos de compras
 let carts = [];
-
-// Router para el manejo de productos
-const productsRouter = express.Router();
 
 // Abrir y cargar la información de los archivos al inicio del servidor
 fs.readFile('./src/products.json', (err, data) => {
@@ -29,7 +29,7 @@ fs.readFile('./src/products.json', (err, data) => {
     carts = JSON.parse(data);
   });
 
-  app.get('/products', (req, res) => {
+   app.get('/products', (req, res) => {
     let result = products;
     if (req.query.limit) {
       result = products.slice(0, req.query.limit);
@@ -82,12 +82,18 @@ productsRouter.put('/:pid', (req, res) => {
 });
 
 // Ruta para eliminar un producto
-productsRouter.delete('/:pid', (req, res) => {
-  // Código para eliminar un producto
+app.delete('/:id', async (req, res) => {
+  const id = req.params;
+  products = products.filter((product) => product.id !== id);
+  fs.writeFile('./src/products.json', JSON.stringify(products), err => {
+    if (err) {
+      res.status(500).send('Error deleting product');
+    } else {
+      res.send('Product deleted successfully');
+    }
+  });
 });
 
-
-app.use('/api/products', productsRouter);
 
 //Router para el carrito de compras
 const cartsRouter = express.Router();
@@ -121,8 +127,6 @@ const cartsRouter = express.Router();
     // Código para añadir un producto a un carrito
   });
 
-  
-  app.use('/api/carts', cartsRouter);
 
 
   app.listen(PORT, () => {

@@ -2,26 +2,26 @@
 import CartManager from "../managers/CartManager.js";
 
 const router = Router();
-const carts = new CartManager('../src/carts.json')
+
 
 
 router.post('/', (req, res) => {
     // · crear un carrito
-    const cart = carts.createCart();
+    const cart = cart.createCart();
     res.status(200).send(cart);
 })
 
 router.get('/:cid', (req, res) => {
     // · conseguir un carrito por su id
     const { cid } = req.params;
-
-    const getCart = carts.getCartByID(cid)
-    if(getCart.id){
-        res.status(200).send(getCart)
-    }else{
-        res.status(400).send(getCart)
+  
+    const cart = CartManager.getCartByID(cid);
+    if(cart.id){
+      res.status(200).send(cart);
+    } else {
+      res.status(400).send(cart);
     }
-})
+  });
 
 router.post('/:cid/product/:pid', (req, res) => {
     // agregar el producto al arreglo de carrito, product id & quantity.

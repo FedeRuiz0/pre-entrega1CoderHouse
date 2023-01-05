@@ -1,85 +1,72 @@
-import { Router } from "express";
+import express from "express";
 import ProductManager from "../managers/ProductManager.js";
 
-const router = Router();
-const productList = new ProductManager('../src/products.json')
+const router = express.Router();
+const app = express();
 
-router.get('/', (req,res) => {
-    res.status(200).send(productList.getProducts())
-})
+  router.get('/products', (req, res) => {
+    let result = products;
+    res.send(result);
+  });
 
-router.get('/:pid', (req,res) => {
-    const { pid } = req.params;
-
-    const result = productList.getProductByID(pid);
-
-    if( result.id ){
-        res.status(200).send(result)
-    }else{
-        res.status(400).send(result)
+  app.get('/products/:id', (req, res) => {
+    const product = products.find(p => p.id === parseInt(req.params.id));
+    if (!product) {
+      res.status(404).send({ error: 'Producto no encontrado' });
+    } else {
+      res.send(product);
     }
-})
+  }); 
+  
 
-router.post('/', (req,res) => {
-    const {title, description, code, price, status,  stock, category, thumbnails} = req.body;
+  app.get('/', (req, res) => {
+    let result = products;
+    res.send(result);
+    });
 
-    if(!title){
-        throw new Error('Title is required.')
+app.get('/:pid', (req, res) => {
+    const product = ProductManager.getProduct(req.params.pid);
+    if (!product) {
+      res.status(404).send({ error: 'Producto no encontrado' });
+    } else {
+      res.send(product);
     }
+  });
 
-    if(!description){
-        throw new Error('Description is required.')
-    }
+    // Ruta para añadir un nuevo producto
 
-    if(!code){
-        throw new Error('Code is required.')
-    }
-
-    if(!price){
-        throw new Error('Price is required.')
-    }
-
-    if(!status){
-        throw new Error('Status is required.')
-    }
-
-    if(!stock){
-        throw new Error('Stock is required.')
-    }
-
-    if(!category){
-        throw new Error('Category is required.')
-    }
-
-    const product = {title, description, code, price, status, stock, category, thumbnails}
-    const result = productList.addProduct(product);
-    res.status(200).send(result)
-})
-
-router.put('/:pid', (req,res) => {
-    const {pid} = req.params;
-    const {title, description, code, price, status,  stock, category, thumbnails} = req.body;
-
-    const result = productList.updateProduct(pid, {title, description, code, price, status,  stock, category, thumbnails});
-
-    if(result.err){
-        res.status(400).send(result)
-    }else{
-        res.status(200).send(result)
-    }
-})
-
-router.delete('/:pid', (req, res) => {
-    const { pid } = req.params;
-
-    const result = productList.deleteProduct(pid);
-
-    if(result.err){
-        res.status(400).send(result)
-    }else{
-        res.status(200).send(result)
-    }
+  router.post('/', (req, res) => {
+    const newProduct = req.body;
+    newProduct.id = Date.now();
+    ProductManager.addProduct(newProduct);
+    res.send('Producto añadido con éxito');
+  });
+  
+  // Ruta para añadir un nuevo producto
+  router.post('/', (req, res) => {
+      const newProduct = req.body;
+      newProduct.id = Date.now();
+      products.push(newProduct);
+      fs.writeFile('./src/productos.json', JSON.stringify(products), err => {
+        if (err) {
+          res.status(500).send('Error al añadir el producto');
+        } else {
+          res.send('Producto añadido con éxito');
+        }
+      });
+    });
+  
+  // Ruta para actualizar un producto
+  router.put('/:pid', (req, res) => {
+    // Código para actualizar un producto
+  });
+  
+  
+  // Ruta para eliminar un producto
+ router.delete('/:id', async (req, res) => {
+    const { id } = req.params;
     
-})
+    product = products.filter((product) => product.id !== id);
+  });
 
-export default router;
+  export default router;
