@@ -1,0 +1,26 @@
+{
+  "name": "pre-entrega1",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FedeRuiz0/pre-entrega1CoderHouse.git"
+  },
+  "author": "Federico Ruiz",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FedeRuiz0/pre-entrega1CoderHouse/issues"
+  },
+  "homepage": "https://github.com/FedeRuiz0/pre-entrega1CoderHouse#readme",
+  "description": "",
+  "dependencies": {
+    "body-parser": "^1.20.1",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "fs": "^0.0.1-security"
+  }
+}

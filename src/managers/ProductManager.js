@@ -69,4 +69,4 @@ class ProductManager {
 const manager = new ProductManager('products.json')
 console.log(manager.getProducts())
 
-module.exports = ProductManager;
+export default ProductManager;
